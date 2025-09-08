@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Make: build all",
+      "type": "shell",
+      "command": "make -j",
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "CMake: configure",
+      "type": "shell",
+      "command": "cmake -S . -B build",
+      "problemMatcher": []
+    },
+    {
+      "label": "CMake: build",
+      "type": "shell",
+      "command": "cmake --build build -j",
+      "group": "build",
+      "problemMatcher": ["$gcc"],
+      "dependsOn": ["CMake: configure"]
+    },
+    {
+      "label": "Build Active File (g++)",
+      "type": "shell",
+      "command": "mkdir -p bin && g++ -std=c++17 -O2 -Wall -Wextra '${file}' -o 'bin/${fileBasenameNoExtension}'",
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Run Tests",
+      "type": "shell",
+      "command": "cmake -S . -B build && cmake --build build -j && (./bin/Debug/tests_tests_all || ./bin/tests_tests_all)",
+      "problemMatcher": []
+    }
+  ]
+}
